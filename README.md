@@ -61,4 +61,5 @@ I made two profiles for this directory, one with the current logo and one with t
 ![PwSh-Profile-STATOIL](Assets/img/PwSh-Profile-STATOIL.png)
 
 ## 4. Windows Terminal
-ToDo
+Under the [Windows Terminal](Windows Terminal) directory is where I put my Windows Terminal `settings.json` file.  
+This file usually lives in the local appdata folder, in most cases you can find it here: `%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`

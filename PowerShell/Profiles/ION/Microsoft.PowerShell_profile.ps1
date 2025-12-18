@@ -328,16 +328,29 @@ Function Install-YubikeyDriver
 }
 
 $GitPath = Get-Item -Path "C:\Program *" | Get-ChildItem -Filter "git.exe" -Recurse -File -ErrorAction Ignore -WarningAction Ignore | Select-Object -ExpandProperty FullName
+If ($ExecutionContext.SessionState.LanguageMode -Eq "FullLanguage")
+{
+    $CurrentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    $RunningAsAdministrator = $CurrentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    $PSVersion = $PSVersionTable.PSVersion
 
-$PSVersion = $PSVersionTable.PSversion
-
-$CurrentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-$RunningAsAdministrator = $CurrentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    Function Set-ConstrainedLanguageMode
+    {
+        Write-Verbose -Message "Current Language Mode: $($ExecutionContext.SessionState.LanguageMode)"
+        $OldTitle = $Host.UI.RawUI.WindowTitle.Clone()
+        $Host.UI.RawUI.WindowTitle = "[ConstrainedLanguage] $($OldTitle)"
+        $ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
+        Write-Verbose -Message "New Language Mode: $($ExecutionContext.SessionState.LanguageMode)"
+    } # Function
+} # If
 
 Function Prompt
 {
 
-    $Host.UI.RawUI.WindowTitle = "$(If ($RunningAsAdministrator){"Administrator: "})PwSh: $(If ((Get-History -ErrorAction Ignore -WarningAction Ignore).Count -Gt 0){(Get-History)[-1].CommandLine})"
+    If ($ExecutionContext.SessionState.LanguageMode -Eq "FullLanguage")
+    {
+        $Host.UI.RawUI.WindowTitle = "$(If ($RunningAsAdministrator){"Administrator: "})PwSh v$($PSVersion.Major).$($PSVersion.Minor): $(If ((Get-History -ErrorAction Ignore -WarningAction Ignore).Count -Gt 0){(Get-History)[-1].CommandLine})"
+    } # If
 
 	If ($GitPath -And (git rev-parse --is-inside-work-tree))
 	{

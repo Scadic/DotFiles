@@ -74,7 +74,7 @@ Function Get-GPUDriverVersion
     End
     {
         If (-Not $NVSMI){$NVSMI = Get-ChildItem -Path "$($env:SystemDrive)\" -Directory | Where-Object -FilterScript {$_.Name -Like "Program Files*" -Or $_.Name -Eq 'Windows'} | Get-ChildItem -Recurse -Filter "nvidia-smi.exe" | Select-Object -ExpandProperty FullName -First 1}
-        $DrvV = (. $NVSMI --query-gpu=driver_version --format=csv |findstr /i /v "driver_version") -Replace "\s","" |sort | select -f 1
+        $DrvV = (. $NVSMI --query-gpu=driver_version --format=csv |findstr /i /v "driver_version") -Replace "\s","" |Sort-Object | Select-Object -First 1
         Return $DrvV
     } # End
 } # Function
@@ -203,42 +203,42 @@ If ($IPv4String.Length -Gt ([System.Console]::WindowWidth - 3 - 52))
 
 Clear-Host; Write-Host
 # Start line 1
-'                 @ @                 ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
-"Uptime:        " -Split '' | % {Write-Host -NoNewLine -Object $_; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
+'                 @ @                 ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+"Uptime:        " -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$("{0:dd}d:{0:hh}h:{0:mm}m:{0:ss}s" -f ($UpTime))" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor White -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 1
 
 # Start line 2
-'                @@ @@                ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'                @@ @@                ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "User:          " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$($env:USERNAME)@$(If ($env:USERDNSDOMAIN){$env:USERDNSDOMAIN}Else{$env:USERDOMAIN})" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor Green -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 2
 
 # Start line 3
-'               @@@ @@@               ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'               @@@ @@@               ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Host:          " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$(Get-FQDNHostName)$(If ((Get-WmiObject -Class Win32_ComputerSystem -Property Model | Select-Object -ExpandProperty Model) -NotLike "System*" -And (Get-WmiObject -Class Win32_ComputerSystem -Property Model | Select-Object -ExpandProperty Model) -NotLike "All Series*"){" [Model: $(Get-WmiObject -Class Win32_ComputerSystem -Property Model | Select-Object -ExpandProperty Model)$(If ((Get-WmiObject -Class Win32_ComputerSystemProduct -Property IdentifyingNumber | Select-Object -ExpandProperty IdentifyingNumber) -NotLike "System*"){"; Serial: $(Get-WmiObject -Class Win32_ComputerSystemProduct -Property IdentifyingNumber | Select-Object -ExpandProperty IdentifyingNumber)"})]"}Else{" [Model: $(Get-WmiObject -Class Win32_BaseBoard -Property Product -ErrorAction Ignore -WarningAction Ignore | Select-Object -ExpandProperty Product)$(If ((Get-WmiObject -Class Win32_ComputerSystemProduct -Property IdentifyingNumber | Select-Object -ExpandProperty IdentifyingNumber) -NotLike "System*"){"; Serial: $(Get-WmiObject -Class Win32_ComputerSystemProduct -Property IdentifyingNumber | Select-Object -ExpandProperty IdentifyingNumber)"})]"})" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor DarkCyan -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 3
 
 # Start line 4
-'            @@@@@@ @@@@@@            ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'            @@@@@@ @@@@@@            ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "OS:            " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$((Get-WmiObject -Class Win32_OperatingSystem -Property Caption | Select-Object -ExpandProperty Caption) -Replace '^Microsoft\s', '') [$(Get-WmiObject -Class Win32_OperatingSystem -Property Version | Select-Object -ExpandProperty Version)]" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor Cyan -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 4
 
 # Start line 5
-'         @@@@@@@@@ @@@@@@@@@         ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'         @@@@@@@@@ @@@@@@@@@         ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "InstallDate:   " -Split '' | ForEach-Object {Write-Host -Object $_  -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$(Get-CimInstance -ClassName Win32_OperatingSystem -Property InstallDate | Select-Object -ExpandProperty InstallDate | Get-Date -UFormat '%Y/%m/%d %r %Z')" -Split '' | ForEach-Object {Write-Host -Object $_  -ForegroundColor Gray -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 5
 
 # Start line 6
-'        @@@@@@@@@   @@@@@@@@@        ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'        @@@@@@@@@   @@@@@@@@@        ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "LastUpdated:   " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; ; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 If ($HotFix -Ge (Get-Date).AddMonths(-1))
 {
@@ -256,7 +256,7 @@ Write-Host
 # End line 6
 
 # Start line 7
-'       @@@@@@@@       @@@@@@@@       ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'       @@@@@@@@       @@@@@@@@       ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Processor(s):  " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 If ((Get-WmiObject -Class Win32_Processor -Property Name | Select-Object -ExpandProperty Name -Unique) -Match 'Intel')
 {
@@ -270,21 +270,21 @@ Write-Host
 # End line 7
 
 # Start line 8
-'      @@@@@@@@         @@@@@@@@      ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'      @@@@@@@@         @@@@@@@@      ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Cores/Threads: " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$(Get-WmiObject -Class Win32_Processor -Property NumberOfCores | Select-Object -ExpandProperty NumberOfCores | Measure-Object -Sum | Select-Object -ExpandProperty Sum)c/$(Get-WmiObject -Class Win32_Processor -Property NumberOfLogicalProcessors | Select-Object -ExpandProperty NumberOfLogicalProcessors | Measure-Object -Sum | Select-Object -ExpandProperty Sum)t" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor DarkCyan -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 8
 
 # Start line 9
-'      @@@@@@@           @@@@@@@      ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'      @@@@@@@           @@@@@@@      ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Memory:        " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$(Size-ToString (Get-WmiObject -Class Win32_PhysicalMemory -Property * | Select-Object -Property Capacity | Measure-Object -Property Capacity -Sum | Select-Object -ExpandProperty Sum)) ($($Capacities = Get-WmiObject -Class Win32_PhysicalMemory -Property Capacity | Select-Object -ExpandProperty Capacity -Unique | Sort-Object; $Capacities | ForEach-Object {$Str = ''; $Str += Get-WmiObject -Class Win32_PhysicalMemory -Filter "Capacity=$($_)" | Measure-Object | Select-Object -ExpandProperty Count; $Str += ' x '; $Str += Size-ToString -Size ((Get-WmiObject -Class Win32_PhysicalMemory  -Filter "Capacity=$($_)" | Select-Object -ExpandProperty Capacity | Measure-Object -Sum | Select-Object -ExpandProperty Sum)/(Get-WmiObject -Class Win32_PhysicalMemory -Filter "Capacity=$($_)" | Measure-Object | Select-Object -ExpandProperty Count)); $Str}))$(If ((Get-WmiObject -Class Win32_PhysicalMemory -Property Speed | Select-Object -ExpandProperty Speed | Sort-Object | Select-Object -Unique -First 1) -And (Get-WmiObject -Class Win32_PhysicalMemory -Property ConfiguredClockSpeed -ErrorAction Ignore -WarningAction Ignore | Select-Object -ExpandProperty ConfiguredClockSpeed | Sort-Object | Select-Object -Unique -First 1)){" [$(Get-WmiObject -Class Win32_PhysicalMemory -Property ConfiguredClockSpeed | Select-Object -ExpandProperty ConfiguredClockSpeed | Sort-Object | Select-Object -Unique -First 1)/$(Get-WmiObject -Class Win32_PhysicalMemory -Property Speed | Select-Object -ExpandProperty Speed | Sort-Object | Select-Object -Unique -First 1) MT/s]"} ElseIf ((Get-WmiObject -Class Win32_PhysicalMemory -Property Speed | Select-Object -ExpandProperty Speed | Sort-Object | Select-Object -Unique -First 1)){" [$(Get-WmiObject -Class Win32_PhysicalMemory -Property Speed | Select-Object -ExpandProperty Speed | Sort-Object | Select-Object -Unique -First 1) MT/s]"})" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor Gray -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 9
 
 # Start line 10
-'      @@@@@@@           @@@@@@@      ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'      @@@@@@@           @@@@@@@      ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Graphics:      " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 If ($GPUs.Count)
 {
@@ -340,7 +340,7 @@ Write-Host
 # End line 10
 
 # Start line 11
-'       @@@@@@@        @@@@@@@@       ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'       @@@@@@@        @@@@@@@@       ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Soundcard(s):  " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 If ($SoundDevs.Count)
 {
@@ -407,7 +407,7 @@ Write-Host
 # End line 11
 
 # Start line 12
-'       @@@@@@@@@@@@@@@@@@@@@@@       ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'       @@@@@@@@@@@@@@@@@@@@@@@       ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "IPv4 Address:  " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 #"$((Get-NetIPAddress -AddressFamily IPv4 -ErrorAction Ignore -WarningAction Ignore | Where-Object -FilterScript {$_.InterfaceAlias -NotLike "Loopback*"} | Where-Object -FilterScript {$_.IPAddress -NotLike "169.254.*"} | Select-Object -Property @{Name='Interface'; Expression={"$($_.InterfaceAlias): $($_.IPAddress)"}} | Select-Object -ExpandProperty Interface) -Join '; ')`n" 
 $IPv4String -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor Yellow -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
@@ -415,21 +415,21 @@ Write-Host
 # End line 12
 
 # Start line 13
-'         @@@@@@@@@@@@@@@@@@@         ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'         @@@@@@@@@@@@@@@@@@@         ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "Volumes:       " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$((Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=3" | Select-Object -Property @{Name="Drive"; Expression={"$($_.DeviceID)($(Size-ToString ($_.Size-$_.FreeSpace))/$(Size-ToString ($_.Size)))"}} | Select-Object -ExpandProperty Drive) -Join '; ')" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor Magenta -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 13
 
 # Start line 14
-'           @@@@@@@@@@@@@@@           ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'           @@@@@@@@@@@@@@@           ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "DiskDrive(s):  " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$((Get-WmiObject -Class Win32_DiskDrive -Property Model | Select-Object -ExpandProperty Model) -Join '; ')" -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline -ForegroundColor Magenta; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host
 # End line 14
 
 # Start line 15
-'              @@@@@@@@@              ' -Split '' | % {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
+'              @@@@@@@@@              ' -Split '' | ForEach-Object {Write-Host -NoNewLine -Object $_ -ForeGroundColor Red; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}; 
 "DateTime:      " -Split '' | ForEach-Object {Write-Host -Object $_ -NoNewline; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 "$(Get-Date -UFormat "%Y/%m/%d %r %Z")" -Split '' | ForEach-Object {Write-Host -Object $_ -ForegroundColor DarkYellow -NoNewLine; Start-Sleep -Milliseconds (Get-Random -Minimum 0 -Maximum 1)}
 Write-Host

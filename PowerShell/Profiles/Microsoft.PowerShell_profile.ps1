@@ -70,7 +70,7 @@ Function Get-GPUDriverVersion
     End
     {
         If (-Not $NVSMI){$NVSMI = Get-ChildItem -Path "$($env:SystemDrive)\" -Directory | Where-Object -FilterScript {$_.Name -Like "Program Files*" -Or $_.Name -Eq 'Windows'} | Get-ChildItem -Recurse -Filter "nvidia-smi.exe" | Select-Object -ExpandProperty FullName -First 1}
-        $DrvV = (. $NVSMI --query-gpu=driver_version --format=csv |findstr /i /v "driver_version") -Replace "\s","" |sort | select -f 1
+        $DrvV = (. $NVSMI --query-gpu=driver_version --format=csv |findstr /i /v "driver_version") -Replace "\s","" |Sort-Object | Select-Object -First 1
         Return $DrvV
     }
 }
@@ -279,7 +279,7 @@ Function Get-YubikeyDriver
 
     End
     {
-        Return (Get-WindowsDriver -Online | ? {$_.ClassName -Eq "SmartCard" -And $_.ProviderName -Eq "Yubico"})
+        Return (Get-WindowsDriver -Online | Where-Object -FilterScript {$_.ClassName -Eq "SmartCard" -And $_.ProviderName -Eq "Yubico"})
     }
 }
 

@@ -8,9 +8,9 @@ Scadic's DotFiles
 3.1. [PowerShell Shortcut](#31-powershell-shortcut)  
 3.2. [PowerShell Profile](#32-powershell-profile)  
 3.3. [Company Specific profiles](#33-company-specific-profiles)  
-3.3.1 [ION](#331-ion)  
-3.3.2 [HVI](#332-hvi)  
-3.3.3 [EQNR](#333-eqnr)  
+3.3.1. [ION](#331-ion)  
+3.3.2. [HVI](#332-hvi)  
+3.3.3. [EQNR](#333-eqnr)  
 4. [Windows Terminal](#4-windows-terminal)  
 
 ## 1. Introduction

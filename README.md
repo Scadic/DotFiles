@@ -45,10 +45,10 @@ If(-Not (Test-Path -Path $($Profile | Split-Path -Parent))){New-Item -ItemType D
 When this directory is created you are free to add any PowerShell profile script in there, depending on your computer's and shortcut's configuration the profile script will attempt to run.
 
 ### 3.3 Company Specific profiles
-As time goes on you end up working for a couple of companies, currently i have 2 which is reflected on the two directores under the [Profiles](PowerShell/Profiles/) directory.
+As time goes on you end up working for a couple of companies, currently i have 3 which is reflected on the two directores under the [Profiles](PowerShell/Profiles/) directory.
 
 #### 3.3.1 ION
-Even after leaving ION Racing back in 2020 I still help out with this and I did creat a profile script for this in the [ION](PowerShell/Profiles/ION/) directory.  
+Even after leaving ION Racing back in 2020 I still help out with this and I did create a profile script for this in the [ION](PowerShell/Profiles/ION/) directory.  
 ![PwSh-Profile-ION](Assets/img/PwSh-Profile-ION.png)
 
 #### 3.3.2 HVI
@@ -61,5 +61,5 @@ I made two profiles for this directory, one with the current logo and one with t
 ![PwSh-Profile-STATOIL](Assets/img/PwSh-Profile-STATOIL.png)
 
 ## 4. Windows Terminal
-Under the [Windows Terminal](Windows Terminal) directory is where I put my Windows Terminal `settings.json` file.  
+Under the [Windows Terminal](Windows Terminal/) directory is where I put my Windows Terminal `settings.json` file.  
 This file usually lives in the local appdata folder, in most cases you can find it here: `%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`
